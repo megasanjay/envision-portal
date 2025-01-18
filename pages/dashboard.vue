@@ -24,4 +24,12 @@ fetch();
 const logout = () => {
   clear();
 };
+
+const { data, error } = await useFetch("/api/ses");
+
+if (error.value) {
+  console.log(error.value);
+}
+
+console.log(data.value);
 </script>
