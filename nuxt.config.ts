@@ -8,6 +8,7 @@ export default defineNuxtConfig({
       stylistic: {
         quotes: "double",
         semi: true,
+        braceStyle: "1tbs",
       },
     },
   },
