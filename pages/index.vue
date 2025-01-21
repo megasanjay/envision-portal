@@ -32,6 +32,3 @@
     </UCard>
   </UContainer>
 </template>
-
-<script setup>
-</script>

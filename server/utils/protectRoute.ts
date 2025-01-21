@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
 
   // Get the user from the session
   const { user } = session;
-  console.log(user);
 
   if (!user) {
     throw createError({

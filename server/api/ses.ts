@@ -5,8 +5,6 @@ export default defineEventHandler(async (event) => {
 
   const { user } = session;
 
-  console.log(user);
-
   return {
     user,
   };
