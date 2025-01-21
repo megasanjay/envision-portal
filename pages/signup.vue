@@ -1,56 +1,114 @@
 <template>
-  <div class="signup">
-    <AuthForm
-      :loading="loading"
-      title="Sign up"
-      @submit="register"
-    />
+  <div class="h-screen  items-center justify-center overlay flex">
+    <div class="px-4 py-5 sm:p-6 max-w-sm w-full border rounded-xl">
+      <div class="flex flex-col items-center justify-center ">
+        <h2 class="text-2xl font-bold my-1">
+          Create an account
+        </h2>
 
-    <p class="signup__text">
-      Already registered?
-      <nuxt-link :to="{ name: 'login' }">Log in</nuxt-link>
-    </p>
+        <p class="font-medium text-slate-600">
+          Already have an account?
+          <NuxtLink
+            to="/login"
+            class="text-sky-500 hover:underline font-medium"
+          >
+            Login
+          </NuxtLink>
+        </p>
+      </div>
+
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4 mt-6"
+        @submit="onSubmit"
+      >
+        <UFormGroup
+          label="Name"
+          name="name"
+        >
+          <UInput
+            v-model="state.name"
+            type="text"
+          />
+        </UFormGroup>
+
+        <UFormGroup
+          label="Username"
+          name="username"
+        >
+          <UInput
+            v-model="state.username"
+            type="text"
+          />
+        </UFormGroup>
+
+        <UFormGroup
+          label="Password"
+          name="password"
+        >
+          <template #trailing>
+            <Icon
+              name="solar:eye-linear"
+              size="16"
+            />
+          </template>
+
+          <UInput
+            v-model="state.password"
+            type="password"
+          />
+        </UFormGroup>
+
+        <UButton
+          type="submit"
+          class="w-full flex justify-center "
+          size="md"
+          :ui="{ rounded: 'rounded-full' }"
+        >
+          Create account
+        </UButton>
+      </UForm>
+    </div>
   </div>
 </template>
 
-<script setup>
-import AuthForm from "@/components/AuthForm.vue";
+<script setup lang="ts">
+import { z } from "zod";
+import type { FormSubmitEvent } from "#ui/types";
 
-const loading = ref(false);
-const router = useRouter();
+const schema = z.object({
+  name: z.string().min(3, "Must be at least 3 characters"),
+  username: z.string().min(3, "Must be at least 3 characters"),
+  password: z.string().min(8, "Must be at least 8 characters"),
+});
 
-const register = async (body) => {
-  loading.value = true;
-  try {
-    await $fetch("/api/auth/signup", {
-      method: "POST",
-      body,
-    });
-    router.push({ name: "Dashboard" });
-    loading.value = false;
-  }
-  catch (error) {
-    alert(error.statusMessage || error);
-    loading.value = false;
-  }
-};
+type Schema = z.output<typeof schema>;
+
+const state = reactive({
+  name: "Alessandra",
+  username: "test",
+  password: "12345678",
+});
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  const body = {
+    name: event.data.name,
+    username: event.data.username,
+    password: event.data.password,
+  };
+
+  await $fetch("/api/auth/signup", {
+    method: "POST",
+    body,
+  }).then(async () => {
+    await navigateTo("/login");
+  }).catch((error) => {
+    console.error(error);
+  }).finally(() => {
+    state.name = "";
+    state.username = "";
+    state.password = "";
+  });
+}
 </script>
-
-<style lang="css" scoped>
-.signup {
-  width: 100%;
-  padding: 50px;
-  max-width: 400px;
-  margin: auto;
-  color: #333333;
-}
-
-.signup__text {
-  text-align: right;
-}
-
-.signup__text a {
-  text-decoration: underline;
-  color: inherit;
-}
-</style>

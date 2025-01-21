@@ -55,8 +55,8 @@
 </template>
 
 <script setup>
-const username = ref("");
-const password = ref("");
+const username = ref("test");
+const password = ref("12345678");
 
 defineProps({
   loading: {

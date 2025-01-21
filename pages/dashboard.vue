@@ -20,6 +20,8 @@
 <script setup>
 const { loggedIn, user, clear, fetch } = useUserSession();
 
+console.log(loggedIn.value, user.value);
+
 fetch();
 const logout = () => {
   clear();
