@@ -9,7 +9,7 @@ const logout = async () => {
 
 <template>
   <header class="border-b border-gray-200 dark:border-gray-800 ">
-    <div class="max-w-screen-xl mx-auto py-4 flex items-center justify-between ">
+    <div class="max-w-screen-xl mx-auto py-4 flex items-center justify-between px-4 sm:px-6 lg:px-8">
       <NuxtLink
         to="/"
         class="flex font-bold text-2xl text-gray-900 dark:text-white"

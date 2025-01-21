@@ -1,15 +1,17 @@
 <script setup>
+const { user } = useUserSession();
+
 definePageMeta({
   middleware: ["auth"],
 });
 
 useSeoMeta({
-  title: "Dashboard",
+  title: "Profile",
 });
 </script>
 
 <template>
   <UContainer>
-    dashboard
+    Current user: {{ user?.username }}
   </UContainer>
 </template>
