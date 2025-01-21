@@ -6,7 +6,7 @@
   <div>
     <AppHeader />
 
-    <main>
+    <main class="my-10">
       <slot />
     </main>
 

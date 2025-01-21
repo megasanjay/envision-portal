@@ -50,7 +50,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       description: "You can now access your account",
     });
 
-    await navigateTo("/dashboard");
+    window.location.href = "/dashboard";
   }).catch((error) => {
     console.error(error.data);
 
