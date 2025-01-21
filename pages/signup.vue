@@ -133,8 +133,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UButton
           type="submit"
           class="w-full flex justify-center "
-          size="md"
-          :ui="{ rounded: 'rounded-full' }"
           :loading="loading"
         >
           Create account
@@ -145,8 +143,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <template #footer>
       By signing in, you agree to our <NuxtLink
         to="/"
-        class="text-primary font-medium text-sm"
-      >Terms of Service</NuxtLink>.
+        class="text-primary font-medium "
+      > Terms of Service </NuxtLink>.
     </template>
   </UCard>
 </template>

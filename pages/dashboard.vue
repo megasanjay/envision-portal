@@ -23,7 +23,7 @@ console.log(data.value);
 </script>
 
 <template>
-  <header>
+  <div>
     <template v-if="loggedIn">
       <p>
         Hi
@@ -38,5 +38,5 @@ console.log(data.value);
     <p v-else>
       Hi Guest, <nuxt-link :to="{ name: 'login' }">Login</nuxt-link>
     </p>
-  </header>
+  </div>
 </template>

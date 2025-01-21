@@ -49,9 +49,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       title: "Login successful",
       description: "You can now access your account",
     });
+
     await navigateTo("/dashboard");
   }).catch((error) => {
     console.error(error.data);
+
     toast.add({
       id: "login_error",
       icon: "material-symbols:error",
@@ -112,7 +114,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <template #hint>
             <NuxtLink
               to="/forgot-password"
-              class="text-sky-500 hover:underline"
+              class="text-sky-500 hover:underline font-medium"
             >
               Forgot your password?
             </NuxtLink>
@@ -127,14 +129,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UButton
           type="submit"
           class="w-full flex justify-center "
-          size="md"
           :loading="loading"
-          :ui="{ rounded: 'rounded-full' }"
         >
           <template #trailing>
-            <UIcon
+            <Icon
               name="i-heroicons-arrow-right-20-solid"
-              class="w-5 h-5"
+              size="20"
             />
           </template>
           Continue
@@ -145,8 +145,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <template #footer>
       By signing in, you agree to our <NuxtLink
         to="/"
-        class="text-primary font-medium text-sm"
-      >Terms of Service</NuxtLink>.
+        class="text-primary font-medium"
+      > Terms of Service </NuxtLink>.
     </template>
   </UCard>
 </template>
