@@ -11,7 +11,5 @@ useSeoMeta({
 </script>
 
 <template>
-  <UContainer>
-    Current user: {{ user?.username }}
-  </UContainer>
+  <UContainer> Current user: {{ user?.username }} </UContainer>
 </template>

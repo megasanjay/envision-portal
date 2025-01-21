@@ -20,67 +20,68 @@ const toast = useToast();
 const loading = ref(false);
 
 const schema = z.object({
-  name: z.string().min(3, "Must be at least 3 characters"),
   username: z.string().min(3, "Must be at least 3 characters"),
+  name: z.string().min(3, "Must be at least 3 characters"),
   password: z.string().min(8, "Must be at least 8 characters"),
 });
 
 type Schema = z.output<typeof schema>;
 
 const state = reactive({
-  name: "Alessandra",
   username: "test",
+  name: "Alessandra",
   password: "12345678",
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = {
-    name: event.data.name,
     username: event.data.username,
+    name: event.data.name,
     password: event.data.password,
   };
 
   loading.value = true;
 
   await $fetch("/api/auth/signup", {
-    method: "POST",
     body,
-  }).then(async () => {
-    toast.add({
-      id: "signup_success",
-      icon: "material-symbols:check-circle-outline",
-      title: "Account created successfully",
-      description: "You can now login",
+    method: "POST",
+  })
+    .then(async () => {
+      toast.add({
+        id: "signup_success",
+        title: "Account created successfully",
+        description: "You can now login",
+        icon: "material-symbols:check-circle-outline",
+      });
+      await navigateTo("/login");
+    })
+    .catch((error) => {
+      console.error(error.data);
+      toast.add({
+        id: "signup_error",
+        title: "Error creating account",
+        color: "red",
+        description: error.data.statusMessage,
+        icon: "material-symbols:error",
+      });
+    })
+    .finally(() => {
+      loading.value = false;
     });
-    await navigateTo("/login");
-  }).catch((error) => {
-    console.error(error.data);
-    toast.add({
-      id: "signup_error",
-      icon: "material-symbols:error",
-      color: "red",
-      title: "Error creating account",
-      description: error.data.statusMessage,
-    });
-  }).finally(() => {
-    loading.value = false;
-  });
 }
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <div class="px-4 py-5 sm:p-6 max-w-sm w-full ">
-      <div class="flex flex-col items-center justify-center ">
-        <h2 class="text-2xl font-bold my-1">
-          Create an account
-        </h2>
+  <UCard class="w-full max-w-sm bg-white/75 backdrop-blur dark:bg-white/5">
+    <div class="w-full max-w-sm px-4 py-5 sm:p-6">
+      <div class="flex flex-col items-center justify-center">
+        <h2 class="my-1 text-2xl font-bold">Create an account</h2>
 
         <p class="font-medium text-slate-600">
           Already have an account?
           <NuxtLink
             to="/login"
-            class="text-sky-500 hover:underline font-medium"
+            class="font-medium text-sky-500 hover:underline"
           >
             Login
           </NuxtLink>
@@ -90,49 +91,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <UForm
         :schema="schema"
         :state="state"
-        class="space-y-4 mt-6"
+        class="mt-6 space-y-4"
         @submit="onSubmit"
       >
-        <UFormGroup
-          label="Name"
-          name="name"
-        >
-          <UInput
-            v-model="state.name"
-            type="text"
-          />
+        <UFormGroup label="Name" name="name">
+          <UInput v-model="state.name" type="text" />
         </UFormGroup>
 
-        <UFormGroup
-          label="Username"
-          name="username"
-        >
-          <UInput
-            v-model="state.username"
-            type="text"
-          />
+        <UFormGroup label="Username" name="username">
+          <UInput v-model="state.username" type="text" />
         </UFormGroup>
 
-        <UFormGroup
-          label="Password"
-          name="password"
-        >
+        <UFormGroup label="Password" name="password">
           <template #trailing>
-            <Icon
-              name="solar:eye-linear"
-              size="16"
-            />
+            <Icon name="solar:eye-linear" size="16" />
           </template>
 
-          <UInput
-            v-model="state.password"
-            type="password"
-          />
+          <UInput v-model="state.password" type="password" />
         </UFormGroup>
 
         <UButton
           type="submit"
-          class="w-full flex justify-center "
+          class="flex w-full justify-center"
           :loading="loading"
         >
           Create account
@@ -141,10 +121,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     </div>
 
     <template #footer>
-      By signing in, you agree to our <NuxtLink
-        to="/"
-        class="text-primary font-medium "
-      > Terms of Service </NuxtLink>.
+      By signing in, you agree to our
+      <NuxtLink to="/" class="text-primary font-medium">
+        Terms of Service </NuxtLink
+      >.
     </template>
   </UCard>
 </template>

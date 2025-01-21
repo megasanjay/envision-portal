@@ -9,7 +9,5 @@ useSeoMeta({
 </script>
 
 <template>
-  <UContainer>
-    dashboard
-  </UContainer>
+  <UContainer> dashboard </UContainer>
 </template>

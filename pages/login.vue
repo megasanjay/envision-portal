@@ -40,51 +40,49 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   loading.value = true;
 
   await $fetch("/api/auth/login", {
-    method: "POST",
     body,
-  }).then(async () => {
-    toast.add({
-      id: "login_success",
-      icon: "material-symbols:check-circle-outline",
-      title: "Login successful",
-      description: "You can now access your account",
-    });
+    method: "POST",
+  })
+    .then(async () => {
+      toast.add({
+        id: "login_success",
+        title: "Login successful",
+        description: "You can now access your account",
+        icon: "material-symbols:check-circle-outline",
+      });
 
-    window.location.href = "/dashboard";
-  }).catch((error) => {
-    console.error(error.data);
+      window.location.href = "/dashboard";
+    })
+    .catch((error) => {
+      console.error(error.data);
 
-    toast.add({
-      id: "login_error",
-      icon: "material-symbols:error",
-      color: "red",
-      title: "Error logging in",
-      description: error.data.statusMessage,
+      toast.add({
+        id: "login_error",
+        title: "Error logging in",
+        color: "red",
+        description: error.data.statusMessage,
+        icon: "material-symbols:error",
+      });
+    })
+    .finally(() => {
+      loading.value = false;
     });
-  }).finally(() => {
-    loading.value = false;
-  });
 }
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <div class="px-4 py-5 sm:p-6 max-w-sm w-full">
-      <div class="flex flex-col items-center justify-center ">
-        <Icon
-          name="iconoir:lock"
-          :size="40"
-        />
+  <UCard class="w-full max-w-sm bg-white/75 backdrop-blur dark:bg-white/5">
+    <div class="w-full max-w-sm px-4 py-5 sm:p-6">
+      <div class="flex flex-col items-center justify-center">
+        <Icon name="iconoir:lock" :size="40" />
 
-        <h2 class="text-2xl font-bold my-1">
-          Welcome back
-        </h2>
+        <h2 class="my-1 text-2xl font-bold">Welcome back</h2>
 
         <p class="font-medium text-slate-600">
           Don't have an account?
           <NuxtLink
             to="/signup"
-            class="text-sky-500 hover:underline font-medium"
+            class="font-medium text-sky-500 hover:underline"
           >
             Sign up
           </NuxtLink>
@@ -94,48 +92,33 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <UForm
         :schema="schema"
         :state="state"
-        class="space-y-4 mt-6"
+        class="mt-6 space-y-4"
         @submit="onSubmit"
       >
-        <UFormGroup
-          label="Username"
-          name="username"
-        >
-          <UInput
-            v-model="state.username"
-            type="text"
-          />
+        <UFormGroup label="Username" name="username">
+          <UInput v-model="state.username" type="text" />
         </UFormGroup>
 
-        <UFormGroup
-          label="Password"
-          name="password"
-        >
+        <UFormGroup label="Password" name="password">
           <template #hint>
             <NuxtLink
               to="/forgot-password"
-              class="text-sky-500 hover:underline font-medium"
+              class="font-medium text-sky-500 hover:underline"
             >
               Forgot your password?
             </NuxtLink>
           </template>
 
-          <UInput
-            v-model="state.password"
-            type="password"
-          />
+          <UInput v-model="state.password" type="password" />
         </UFormGroup>
 
         <UButton
           type="submit"
-          class="w-full flex justify-center "
+          class="flex w-full justify-center"
           :loading="loading"
         >
           <template #trailing>
-            <Icon
-              name="i-heroicons-arrow-right-20-solid"
-              size="20"
-            />
+            <Icon name="i-heroicons-arrow-right-20-solid" size="20" />
           </template>
           Continue
         </UButton>
@@ -143,10 +126,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     </div>
 
     <template #footer>
-      By signing in, you agree to our <NuxtLink
-        to="/"
-        class="text-primary font-medium"
-      > Terms of Service </NuxtLink>.
+      By signing in, you agree to our
+      <NuxtLink to="/" class="text-primary font-medium">
+        Terms of Service </NuxtLink
+      >.
     </template>
   </UCard>
 </template>

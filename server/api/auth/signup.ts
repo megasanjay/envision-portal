@@ -7,7 +7,7 @@ const signupSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  const body = await readValidatedBody(event, b => signupSchema.safeParse(b));
+  const body = await readValidatedBody(event, (b) => signupSchema.safeParse(b));
 
   if (!body.success) {
     throw createError({
@@ -32,6 +32,7 @@ export default defineEventHandler(async (event) => {
 
   // Create a new user
   const hashedPassword = await bcrypt.hash(body.data.password, 10);
+
   await prisma.user.create({
     data: {
       username: body.data.username,
@@ -41,9 +42,10 @@ export default defineEventHandler(async (event) => {
 
   // Create a new session for the user
   const userData = { username: body.data.username };
+
   await setUserSession(event, {
-    user: userData,
     loggedInAt: new Date(),
+    user: userData,
     userSessionField: "",
   });
 

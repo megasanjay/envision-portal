@@ -7,7 +7,7 @@ const loginSchema = z.object({
 });
 
 export default defineEventHandler(async (event) => {
-  const body = await readValidatedBody(event, b => loginSchema.safeParse(b));
+  const body = await readValidatedBody(event, (b) => loginSchema.safeParse(b));
 
   if (!body.success) {
     throw createError({
@@ -40,9 +40,10 @@ export default defineEventHandler(async (event) => {
 
   // Create a new session for the user
   const userData = { username: user.username };
+
   await setUserSession(event, {
-    user: userData,
     loggedInAt: new Date(),
+    user: userData,
     userSessionField: "",
   });
 
