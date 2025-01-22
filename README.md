@@ -1,75 +1,69 @@
 # Envision Portal
 
-Look at [Nuxt docs](https://nuxt.com/docs/getting-started/introduction) and [Nuxt UI docs](https://ui.nuxt.com) to learn more.
+## Getting started
 
-## Setup
+### Prerequisites/Dependencies
 
-Make sure to install the dependencies:
+You will need the following installed on your system:
 
-```bash
-# npm
-npm install
+- Node.js
+- Yarn
+- Docker
+- Volta (optional)
 
-# pnpm
-pnpm install
+### Setup
 
-# yarn
-yarn install
+1. Clone the repository
 
-# bun
-bun install
-```
+   ```bash
+   git clone https://github.com/eyeact/envision-portal.git
+   ```
 
-## Development Server
+2. Install the dependencies
 
-Start the development server on `http://localhost:3000`:
+   ```bash
+   yarn install
+   ```
 
-```bash
-# npm
-npm run dev
+3. Add your environment variables. An example is provided at `.env.example`
 
-# pnpm
-pnpm run dev
+   ```bash
+   cp .env.example .env
+   ```
 
-# yarn
-yarn dev
+4. Start the development server
 
-# bun
-bun run dev
-```
+   ```bash
+   yarn dev
+   ```
 
-## Production
+5. Open the application in your browser
 
-Build the application for production:
+   ```bash
+   open http://localhost:3000
+   ```
 
-```bash
-# npm
-npm run build
+## Development
 
-# pnpm
-pnpm run build
+### Database
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
+The application uses a PostgreSQL database for storing data. You can use Docker to run these services locally.
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+docker-compose -f ./dev-docker-compose.yaml up
+docker-compose -f ./dev-docker-compose.yaml up -d # if you want the db to run in the background
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Close the database with:
+
+```bash
+docker-compose -f ./dev-docker-compose.yaml down
+```
+
+### Prisma
+
+The application uses Prisma to interact with the database.
+
+### UI
+
+The application uses [Nuxt UI](https://ui.nuxt.com) to build the UI components. It also uses [Tailwind CSS](https://tailwindcss.com) for styling.
