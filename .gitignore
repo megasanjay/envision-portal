@@ -23,4 +23,7 @@ logs
 .env.*
 !.env.example
 
+# Database 
+postgres-data/*
+redis-data/*
 database.sqlite
