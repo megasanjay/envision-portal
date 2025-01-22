@@ -1,3 +1,9 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: "Home",
+});
+</script>
+
 <template>
   <UContainer>
     <div class="relative flex w-full items-center justify-center rounded-2xl">
